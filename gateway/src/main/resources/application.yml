@@ -1,33 +1,24 @@
 server:
   port: 8088
-
 ---
-
 spring:
   profiles: default
   cloud:
     gateway:
       routes:
-        - id: pet
+        - id: settlement
           uri: http://localhost:8081
           predicates:
-            - Path=/pets/**, /cats/**, /dogs/** 
-        - id: store
-          uri: http://localhost:8083
-          predicates:
-            - Path=/cartItems/**, /customers/**, /items/**
-        - id: store-front
-          uri: http://localhost:8085
-          predicates:
-            - Path=/shop/**, /shop/js/
-        - id: pet-front
-          uri: http://localhost:8084
-          predicates:
-            - Path=/**
-        
+            - Path=/settlements/**
+
+      #        - id: pet-front
+      #          uri: http://localhost:3000
+      #          predicates:
+      #            - Path=/**
+
       globalcors:
         corsConfigurations:
-          '[/**]':
+          "[/**]":
             allowedOrigins:
               - "*"
             allowedMethods:
@@ -35,27 +26,20 @@ spring:
             allowedHeaders:
               - "*"
             allowCredentials: true
-
-
 ---
-
 spring:
   profiles: docker
   cloud:
     gateway:
       routes:
-        - id: pet
-          uri: http://pet:8080
+        - id: settlement
+          uri: http://settlement:8080
           predicates:
-            - Path=/pets/**, /cats/**, /dogs/** 
-        - id: store
-          uri: http://store:8080
-          predicates:
-            - Path=/cartItems/**, /customers/**, /items/**
-        
+            - Path=/settlements/**
+
       globalcors:
         corsConfigurations:
-          '[/**]':
+          "[/**]":
             allowedOrigins:
               - "*"
             allowedMethods:
