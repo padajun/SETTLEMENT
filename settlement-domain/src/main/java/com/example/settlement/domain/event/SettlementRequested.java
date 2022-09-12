@@ -12,10 +12,11 @@ import lombok.Setter;
 @Setter
 public class SettlementRequested extends AbstractEvent{
   Long id;
-  Long gameReservationId;
-  Long businessId;
+  String gameReservationId;
+  String businessId;
   Long amount;
-  SettlementRequestStatus settleRequestStatus;
-  LocalDateTime settleDate;
+  SettlementRequestStatus settlementRequestStatus;
+  //LocalDateTime settleDateTime;
+  //LocalDateTime creaDateTime;
 
 }

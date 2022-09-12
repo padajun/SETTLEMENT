@@ -4,7 +4,8 @@ public enum SettlementRequestStatus{
     REGISTERED,
     REQUEST,
     CNCL,
-    APPV
+    APPV,
+    REJECT
     ;
 
 }

@@ -11,11 +11,18 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.Table;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.example.settlement.domain.event.SettlementCompleted;
+import com.example.settlement.domain.event.SettlementRejected;
+import com.example.settlement.domain.event.SettlementRequested;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -36,10 +43,10 @@ public class Settlement {
       private Long id;
 
       @Column(name = "game_reservation_id", nullable = false)
-      private Long gameReservationId;
+      private String gameReservationId;
 
       @Column(name = "business_id", nullable = false)
-      private Long businessId;
+      private String businessId;
 
       @Column(name = "amount")
       private Long amount;
@@ -57,30 +64,56 @@ public class Settlement {
       private LocalDateTime settleDateTime;
 
       @Builder
-      public Settlement(Long businessId, Long gameReservationid, Long amount){
+      public Settlement(String businessId, String gameReservationid, Long amount){
             this.gameReservationId = gameReservationid;
             this.businessId = businessId;
             this.amount = amount;
-            this.settlementRequestStatus = SettlementRequestStatus.REGISTERED;
+            this.settlementRequestStatus = SettlementRequestStatus.REQUEST;
             this.createdDateTime = LocalDateTime.now();
+            this.settleDateTime = LocalDateTime.now();
 
+      }
+
+      @PostPersist
+      public void onPostPersist(){
+            SettlementRequested settlementRequested = new SettlementRequested();
+            BeanUtils.copyProperties(this, settlementRequested);
+            settlementRequested.publishAfterCommit();
+      }
+
+      @PostUpdate
+      public void onPostUpdate(){
+            if(this.getSettlementRequestStatus().equals(SettlementRequestStatus.APPV))
+            {
+            SettlementCompleted settlementCompleted = new SettlementCompleted();
+            BeanUtils.copyProperties(this, settlementCompleted);
+            settlementCompleted.publishAfterCommit();
+            }
+            else if(this.getSettlementRequestStatus().equals(SettlementRequestStatus.REJECT))
+            {
+            SettlementRejected settlementRejected = new SettlementRejected();
+            BeanUtils.copyProperties(this, settlementRejected);
+            settlementRejected.publishAfterCommit();
+            }
       }
 
       public void setSatus(SettlementRequestStatus settlementRequestStatus){
             this.settlementRequestStatus = settlementRequestStatus;
       }
 
-      public boolean isNotBussinessId(Long businessId){
+      public boolean isNotBussinessId(String businessId){
             return !this.businessId.equals(businessId);
       }
 
-      public boolean isNotRegistedStatus(){
-            return this.settlementRequestStatus !=SettlementRequestStatus.REGISTERED;
-      }
-
-      public boolean isNotRequestgitStatus(){
+      public boolean isNotRequestedStatus(){
             return this.settlementRequestStatus !=SettlementRequestStatus.REQUEST;
       }
+
+      public boolean isRejectedOrCompletedStatus(){
+            return this.settlementRequestStatus == SettlementRequestStatus.REJECT || this.settlementRequestStatus == SettlementRequestStatus.APPV;
+      }
+
+      
 
       
 

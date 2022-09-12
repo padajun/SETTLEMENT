@@ -14,10 +14,10 @@ public class SettlementResponse {
     private Long id;
 
     @Schema(description = "사업장ID")
-    private Long businessId;
+    private String businessId;
 
     @Schema(description = "게임예약ID")
-    private Long gameReservationid;
+    private String gameReservationId;
 
     @Schema(description = "정산금액")
     private Long amount;
@@ -29,7 +29,7 @@ public class SettlementResponse {
         return SettlementResponse.builder()
         .id(settlement.getId())
         .businessId(settlement.getBusinessId())
-        .gameReservationid(settlement.getGameReservationId())
+        .gameReservationId(settlement.getGameReservationId())
         .amount(settlement.getAmount())
         .settlementRequestStatus(settlement.getSettlementRequestStatus())
         .build();

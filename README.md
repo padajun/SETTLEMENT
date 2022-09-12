@@ -30,7 +30,7 @@ kafka-kafka-1  | [2022-04-21 22:07:03,262] INFO [KafkaServer id=1] started (kafk
 docker-compose exec -it kafka /bin/bash   # kafka docker container 내부 shell 로 진입
 
 [appuser@e23fbf89f899 bin]$ cd /bin
-[appuser@e23fbf89f899 bin]$ ./kafka-console-consumer --bootstrap-server localhost:9092 --topic petstore
+[appuser@e23fbf89f899 bin]$ ./kafka-console-consumer --bootstrap-server localhost:9092 --topic scrumble
 ```
 
 ### 로컬 설치 (비추)
@@ -50,7 +50,7 @@ bin/kafka-server-start.sh config/server.properties &
 - Kafka Event 컨슈밍하기 (별도 터미널)
 ```
 cd kafka_2.13-3.1.0/
-bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic petstore
+bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic scurumble
 ```
 
 ## Pet Service 기동

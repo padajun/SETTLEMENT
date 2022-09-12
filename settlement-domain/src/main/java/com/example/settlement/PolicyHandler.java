@@ -6,12 +6,13 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import com.example.settlement.domain.Settlement;
-import com.example.settlement.domain.SettlementRequestStatus;
 import com.example.settlement.domain.event.GameCompleted;
 import com.example.settlement.domain.repository.SettlementRepository;
 import com.example.settlement.kafka.KafkaProcessor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class PolicyHandler {
     @Autowired
     SettlementRepository settlementRepository;
@@ -44,21 +45,24 @@ public class PolicyHandler {
     //     });
 
     // }
-    /*
+    
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverGameCompleted_CreateSettlement(@Payload GameCompleted gameCompleted){
         if(!gameCompleted.validate())
             return;
 
-            Settlement settlement = new Settlement();
-            settlement.setBusinessId(gameCompleted.getBusinessId());
-            settlement.setGameReservationId(gameCompleted.getGameReservationId());
-            settlement.setSatus(SettlementRequestStatus.REGISTERED);
-            settlement.setAmount(gameCompleted.getAmount());
-            SettlementRepository.save(settlement);
+            long id =settlementRepository.save(
+            Settlement.builder()
+            .gameReservationid(gameCompleted.getGameReservationId())
+            .businessId(gameCompleted.getBusinessId())
+            .amount(gameCompleted.getAmount())
+            .build()
+            ).getId();
+            log.info("Saved Settlement. id :{}",id);
+            
 
     }
-    */
+    
     ///// *** Example ****
 
     // @StreamListener(KafkaProcessor.INPUT)
