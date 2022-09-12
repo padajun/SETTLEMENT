@@ -31,7 +31,7 @@ public class SettlementService {
     long id =settlementRepository.save(
             Settlement.builder()
 
-            .gameReservationid(request.getGameReservationId())
+            .gameReservationId(request.getGameReservationId())
             .businessId(request.getBusinessId())
             .amount(request.getAmount())
             .build()
@@ -71,7 +71,7 @@ public class SettlementService {
         validateStatus(settlement);
         settlement.setId(id);
         settlement.setGameReservationId(settlement.getGameReservationId());
-        settlement.setBusinessId(settlement.getGameReservationId());
+        settlement.setBusinessId(settlement.getBusinessId());
         settlement.setAmount(settlement.getAmount());
         settlement.setSatus(SettlementRequestStatus.APPV);
         settlement.setCreatedDateTime(settlement.getCreatedDateTime());
@@ -87,7 +87,7 @@ public class SettlementService {
         validateStatus(settlement);
         settlement.setId(id);
         settlement.setGameReservationId(settlement.getGameReservationId());
-        settlement.setBusinessId(settlement.getGameReservationId());
+        settlement.setBusinessId(settlement.getBusinessId());
         settlement.setAmount(settlement.getAmount());
         settlement.setSatus(SettlementRequestStatus.REJECT);
         settlement.setCreatedDateTime(settlement.getCreatedDateTime());

@@ -8,19 +8,19 @@ public class SettlementRequest {
     
     @Schema(description = "게임예약ID")
     @NotBlank(message = "{gameReservationId.not.empty}")
-    private String gameReservationId;
+    private Long gameReservationId;
 
     @Schema(description = "사업장ID")
     @NotBlank(message = "{businessId.not.empty}")
     private String businessId;
     
     @Schema(description = "정산금액")
-    private Long amount;
+    private String amount;
 
     /**
      * @return the gameReservationId
      */
-    public String getGameReservationId() {
+    public Long getGameReservationId() {
         return gameReservationId;
     }
 
@@ -34,7 +34,7 @@ public class SettlementRequest {
     /**
      * @return the amount
      */
-    public Long getAmount() {
+    public String getAmount() {
         return amount;
     }
 
@@ -43,8 +43,8 @@ public class SettlementRequest {
      * @param businessId
      * @param amount
      */
-    public SettlementRequest(@NotBlank(message = "{gameReservationId.not.empty}") String gameReservationId,
-            @NotBlank(message = "{businessId.not.empty}") String businessId, Long amount) {
+    public SettlementRequest(@NotBlank(message = "{gameReservationId.not.empty}") Long gameReservationId,
+            @NotBlank(message = "{businessId.not.empty}") String businessId, String amount) {
         this.gameReservationId = gameReservationId;
         this.businessId = businessId;
         this.amount = amount;

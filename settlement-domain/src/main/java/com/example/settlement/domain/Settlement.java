@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -41,15 +42,23 @@ public class Settlement {
       @Id
       @GeneratedValue(strategy = GenerationType.IDENTITY)
       private Long id;
-
-      @Column(name = "game_reservation_id", nullable = false)
-      private String gameReservationId;
-
+      
       @Column(name = "business_id", nullable = false)
       private String businessId;
 
+      @Embedded
+      private BusinessInfo businessInfo;
+
+      @Embedded
+      private MemberInfo memberInfo;
+
+      @Column(name = "game_reservation_id", nullable = false)
+      private Long gameReservationId;
+
+
+
       @Column(name = "amount")
-      private Long amount;
+      private String amount;
 
       @Column(name = "settlement_request_status", nullable = false)
       @Enumerated(EnumType.STRING)
@@ -64,8 +73,8 @@ public class Settlement {
       private LocalDateTime settleDateTime;
 
       @Builder
-      public Settlement(String businessId, String gameReservationid, Long amount){
-            this.gameReservationId = gameReservationid;
+      public Settlement(String businessId, Long gameReservationId, String amount){
+            this.gameReservationId = gameReservationId;
             this.businessId = businessId;
             this.amount = amount;
             this.settlementRequestStatus = SettlementRequestStatus.REQUEST;

@@ -53,9 +53,9 @@ public class PolicyHandler {
 
             long id =settlementRepository.save(
             Settlement.builder()
-            .gameReservationid(gameCompleted.getGameReservationId())
+            .gameReservationId(gameCompleted.getGameReservationId())
             .businessId(gameCompleted.getBusinessId())
-            .amount(gameCompleted.getAmount())
+            .amount(gameCompleted.getBiddingAmount())
             .build()
             ).getId();
             log.info("Saved Settlement. id :{}",id);

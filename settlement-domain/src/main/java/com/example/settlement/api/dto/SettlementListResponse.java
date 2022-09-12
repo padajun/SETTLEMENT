@@ -41,10 +41,10 @@ public class SettlementListResponse {
         private String businessId;
 
         @Schema(description = "게임예약ID")
-        private String gameReservationId;
+        private Long gameReservationId;
 
         @Schema(description = "정산요청금액")
-        private long amount;
+        private String amount;
 
         @Schema(description = "정산요청상태")
         private SettlementRequestStatus settlementRequestStatus;
